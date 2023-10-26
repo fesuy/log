@@ -7,7 +7,7 @@ let logger = void 0;
  * Create logger instance once
  * @param filepath
  */
-export default function createLogger(filepath) {
+export function createLogger(filepath) {
   if (!logger) {
     logger = new Logger(filepath);
   }
@@ -17,6 +17,6 @@ export default function createLogger(filepath) {
  * Retrieve logger instance
  * @returns Logger
  */
-export default function getLogger() {
+export function getLogger() {
   return logger;
 }
