@@ -61,7 +61,7 @@ class Logger {
   getTime_() {
     const date = new Date();
 
-    return [
+    let format = [
       date.getFullYear(),
       '-',
       date.getMonth() + 1,
@@ -73,7 +73,31 @@ class Logger {
       date.getMinutes(),
       ':',
       date.getSeconds(),
-    ].join('');
+    ];
+
+    for (let i in format) {
+      let part = format[i];
+
+      if (!isNaN(part) && !isNaN(parseFloat(part))) {
+        format[i] = this.padZero2_(part);
+      }
+    }
+
+    return format.join('');
+  }
+
+  /**
+   * Pad zero into number
+   * @param  number
+   * @returns
+   */
+  padZero2_(number) {
+    let numbers = (number + '').split('')
+
+    while (numbers.length < 2)
+        numbers.unshift('0')
+
+    return numbers.join('');
   }
 
   /**
