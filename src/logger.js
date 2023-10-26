@@ -78,6 +78,7 @@ class Logger {
     for (let i in format) {
       let part = format[i];
 
+      // Filter numeric only
       if (!isNaN(part) && !isNaN(parseFloat(part))) {
         format[i] = this.padZero2_(part);
       }
