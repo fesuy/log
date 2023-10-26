@@ -8,7 +8,7 @@ export default {
    * Create logger instance once
    * @param filepath
    */
-  createLogger(filepath) {
+  createLogger: filepath => {
     if (!logger) {
       logger = new Logger(filepath);
     }
@@ -17,7 +17,7 @@ export default {
    * Retrieve logger instance
    * @returns Logger
    */
-  getLogger() {
+  getLogger: () => {
     return logger;
   }
 }
