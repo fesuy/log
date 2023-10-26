@@ -82,6 +82,15 @@ class Logger {
    * @param msg
    */
   write(logType, msg) {
-    msg = `[${this.getTime_()} ${logType}] ${msg}`;
+    msg = `[${this.getTime_()} ${logType}] ${msg}\n`;
+
+    // Write log into file if filepath specified
+    if (this.filepath) {
+      fs.writeFile(this.filepath, msg, err => {
+        console.log(err);
+      });
+    } else {
+      console.log(msg);
+    }
   }
 }
