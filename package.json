@@ -1,0 +1,10 @@
+{
+  "name": "@fesuy/log",
+  "version": "1.0.0",
+  "description": "Log library",
+  "main": "src/index.js",
+  "type": "module",
+  "repository": "https://github.com/fesuy/log.git",
+  "author": "Fesuy <fesuybiz@gmail.com>",
+  "license": "GPLv3"
+}
