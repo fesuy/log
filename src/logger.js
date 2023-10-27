@@ -55,37 +55,33 @@ class Logger {
   }
 
   /**
-   * Retrieve current datetime
+   * Retrieve current date string
+   * @returns string
+   */
+  getDate_() {
+    const date = new Date();
+
+    return [
+      date.getFullYear(),
+      date.getMonth() + 1,
+      date.getDay(),
+    ].join('-');
+  }
+
+  /**
+   * Retrieve current time string
    * @returns String
    */
   getTime_() {
     const date = new Date();
 
-    let format = [
-      date.getFullYear(),
-      '-',
-      date.getMonth() + 1,
-      '-',
-      date.getDay(),
-      ' ',
-      date.getHours(),
-      ':',
-      date.getMinutes(),
-      ':',
-      date.getSeconds(),
-    ];
-
-    for (let i in format) {
-      let part = format[i];
-
-      // Filter numeric only
-      if (!isNaN(part) && !isNaN(parseFloat(part))) {
-        format[i] = this.padZero2_(part);
-      }
-    }
-
-    return format.join('');
+    return [
+      this.padZero2_(date.getHours()),
+      this.padZero2_(date.getMinutes()),
+      this.padZero2_(date.getSeconds()),
+    ].join(':');
   }
+
 
   /**
    * Pad zero into number
@@ -107,11 +103,11 @@ class Logger {
    * @param msg
    */
   write(logType, msg) {
-    msg = `[${this.getTime_()} ${logType}] ${msg}\n`;
+    msg = `[${this.getTime_()}][${logType}] ${msg}\n`;
 
     // Write log into file if filepath specified
     if (this.filepath) {
-      fs.writeFile(this.filepath, msg, err => {
+      fs.appendFile(this.filepath, msg, err => {
         console.log(err);
       });
     } else {
