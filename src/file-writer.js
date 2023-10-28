@@ -51,7 +51,7 @@ class FileWriter {
     const newLogPath  = this.getLogPath_();
     const changed     = newLogPath !== this.currentPath;
 
-    // Log path changed
+    // Log path different
     if (changed) this.currentPath = newLogPath;
 
     return changed;
