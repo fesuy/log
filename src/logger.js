@@ -1,4 +1,6 @@
 import fs from 'fs';
+import FileWriter from './file-writer.js';
+import padZero2 from './pad-zero2.js';
 
 /**
  * Logger class
@@ -8,10 +10,19 @@ class Logger {
 
   /**
    * Constructor
-   * @param filepath    if filepath not specified log will write in console
+   * @param logDir    if log directory not specified log
+   *                  will write in console
    */
-  constructor(filepath) {
-    this.filepath = filepath;
+  constructor(logDir) {
+    this.writer = !logDir ? console : new FileWriter(logDir);
+    this.TIME_SEPARATOR = ':'; // Separator
+
+    // Message
+    this.INFO_MSG   = 'INFO';
+    this.TRACE_MSG  = 'TRACE';
+    this.DEBUG_MSG  = 'DEBUG';
+    this.WARN_MSG   = 'WARN';
+    this.ERROR_MSG  = 'ERROR';
   }
 
   /**
@@ -19,7 +30,7 @@ class Logger {
    * @param msg
    */
   trace(msg) {
-    this.write('TRACE', msg);
+    this.write_(this.TRACE_MSG, msg);
   }
 
   /**
@@ -27,7 +38,7 @@ class Logger {
    * @param msg
    */
   warn(msg) {
-    this.write('WARN', msg);
+    this.write_(this.WARN_MSG, msg);
   }
 
   /**
@@ -35,7 +46,7 @@ class Logger {
    * @param msg
    */
   info(msg) {
-    this.write('INFO', msg);
+    this.write_(this.INFO_MSG, msg);
   }
 
   /**
@@ -43,7 +54,7 @@ class Logger {
    * @param msg
    */
   debug(msg) {
-    this.write('DEBUG', msg);
+    this.write_(this.DEBUG_MSG, msg);
   }
 
   /**
@@ -51,21 +62,7 @@ class Logger {
    * @param msg
    */
   error(msg) {
-    this.write('ERROR', msg);
-  }
-
-  /**
-   * Retrieve current date string
-   * @returns string
-   */
-  getDate_() {
-    const date = new Date();
-
-    return [
-      date.getFullYear(),
-      date.getMonth() + 1,
-      date.getDay(),
-    ].join('-');
+    this.write_(this.DEBUG_MSG, msg);
   }
 
   /**
@@ -76,25 +73,10 @@ class Logger {
     const date = new Date();
 
     return [
-      this.padZero2_(date.getHours()),
-      this.padZero2_(date.getMinutes()),
-      this.padZero2_(date.getSeconds()),
-    ].join(':');
-  }
-
-
-  /**
-   * Pad zero into number
-   * @param  number
-   * @returns
-   */
-  padZero2_(number) {
-    let numbers = (number + '').split('')
-
-    while (numbers.length < 2)
-        numbers.unshift('0')
-
-    return numbers.join('');
+      padZero2(date.getHours()),
+      padZero2(date.getMinutes()),
+      padZero2(date.getSeconds()),
+    ].join(this.TIME_SEPARATOR);
   }
 
   /**
@@ -102,17 +84,10 @@ class Logger {
    * @param logType
    * @param msg
    */
-  write(logType, msg) {
+  write_(logType, msg) {
     msg = `[${this.getTime_()}][${logType}] ${msg}\n`;
 
-    // Write log into file if filepath specified
-    if (this.filepath) {
-      fs.appendFile(this.filepath, msg, err => {
-        console.log(err);
-      });
-    } else {
-      console.log(msg);
-    }
+    this.writer.log(msg);
   }
 }
 
