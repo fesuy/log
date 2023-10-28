@@ -64,7 +64,7 @@ class FileWriter {
     // End stream when already set
     if (this.fs) this.fs.end();
 
-    this.fs = fs.createWriteStream(this.currentPath);
+    this.fs = fs.createWriteStream(this.currentPath, { flags: 'a' });
 
     this.fs.on('error', err => {
       throw err;
