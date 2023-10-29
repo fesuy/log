@@ -1,4 +1,3 @@
-import fs from 'fs';
 import FileWriter from './file-writer.js';
 import padZero2 from './pad-zero2.js';
 
