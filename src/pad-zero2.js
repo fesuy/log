@@ -4,10 +4,10 @@
  * @returns string
  */
 export default function(number) {
-  let numbers = (number + '').split('')
+  let numbers = (number + '').split('');
 
     while (numbers.length < 2)
-        numbers.unshift('0')
+        numbers.unshift('0');
 
     return numbers.join('');
 }

@@ -113,12 +113,16 @@ class FileWriter {
 
   /**
    * Write log message
+   * @param time
+   * @param logType
    * @param msg
    */
-  log(msg) {
+  write(time, logType, msg) {
     if (this.shouldChangeFile_()) {
       this.createLogFile_();
     }
+
+    msg = `[${time}][${logType}] ${msg}\n`;
 
     this.fs.write(msg, this.encoding);
   }

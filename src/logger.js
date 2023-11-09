@@ -1,5 +1,7 @@
 import FileWriter from './file-writer.js';
+import ConsoleWriter from './console-writer.js';
 import padZero2 from './pad-zero2.js';
+import base from './base.js';
 
 /**
  * Logger class
@@ -13,15 +15,7 @@ class Logger {
    *                  will write in console
    */
   constructor(logDir) {
-    this.writer = !logDir ? console : new FileWriter(logDir);
-    this.TIME_SEPARATOR = ':'; // Separator
-
-    // Message
-    this.INFO_MSG   = 'INFO';
-    this.TRACE_MSG  = 'TRACE';
-    this.DEBUG_MSG  = 'DEBUG';
-    this.WARN_MSG   = 'WARN';
-    this.ERROR_MSG  = 'ERROR';
+    this.writer = !logDir ? new ConsoleWriter() : new FileWriter(logDir);
   }
 
   /**
@@ -29,7 +23,7 @@ class Logger {
    * @param msg
    */
   trace(msg) {
-    this.write_(this.TRACE_MSG, msg);
+    this.write_(base.TRACE_MSG, msg);
   }
 
   /**
@@ -37,7 +31,7 @@ class Logger {
    * @param msg
    */
   warn(msg) {
-    this.write_(this.WARN_MSG, msg);
+    this.write_(base.WARN_MSG, msg);
   }
 
   /**
@@ -45,7 +39,7 @@ class Logger {
    * @param msg
    */
   info(msg) {
-    this.write_(this.INFO_MSG, msg);
+    this.write_(base.INFO_MSG, msg);
   }
 
   /**
@@ -53,7 +47,7 @@ class Logger {
    * @param msg
    */
   debug(msg) {
-    this.write_(this.DEBUG_MSG, msg);
+    this.write_(base.DEBUG_MSG, msg);
   }
 
   /**
@@ -61,7 +55,7 @@ class Logger {
    * @param msg
    */
   error(msg) {
-    this.write_(this.DEBUG_MSG, msg);
+    this.write_(base.ERROR_MSG, msg);
   }
 
   /**
@@ -75,7 +69,7 @@ class Logger {
       padZero2(date.getHours()),
       padZero2(date.getMinutes()),
       padZero2(date.getSeconds()),
-    ].join(this.TIME_SEPARATOR);
+    ].join(base.TIME_SEPARATOR);
   }
 
   /**
@@ -84,9 +78,8 @@ class Logger {
    * @param msg
    */
   write_(logType, msg) {
-    msg = `[${this.getTime_()}][${logType}] ${msg}\n`;
-
-    this.writer.log(msg);
+    // Write log into Writer class
+    this.writer.write(this.getTime_(), logType, msg);
   }
 }
 
